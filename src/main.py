@@ -29,7 +29,8 @@ def handle_invalid_usage(error):
 @app.route('/')
 def sitemap():
     return generate_sitemap(app)
-
+#NOTA
+#puedo copiar todo esto pero literalmente puedo crear una nueva ruta
 @app.route('/user', methods=['GET'])
 def handle_hello():
 
