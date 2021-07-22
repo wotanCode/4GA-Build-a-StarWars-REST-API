@@ -22,8 +22,10 @@ class People(db.Model):
     __tablename__ = 'people'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
-    planets = db.Column(db.String(80), unique=False, nullable=False)
-
+    #planet = db.Column(db.String(80), unique=False, nullable=False) recordar comentar porque se comento esta linea
+    id_planet = db.Column(db.Integer, db.ForeignKey('planet.id'))
+    planet = db.relationship ('Planet', lazy=True, uselist=True)
+    
     def __repr__(self):
         return '<People %r>' % self.name
 
