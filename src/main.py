@@ -40,15 +40,6 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-@app.route('/user', methods=['GET'])
-def handle_hello():
-
-    response_body = {
-        "msg": "Hello, this is your GET /user response "
-    }
-
-    return jsonify(response_body), 200
-
 @app.route('/people', methods=['GET', 'POST'])
 def methods_people():
     if request.method == 'POST':

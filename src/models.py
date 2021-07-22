@@ -42,7 +42,7 @@ class Planet(db.Model):
     id_people = db.Column(db.Integer, db.ForeignKey('people.id'))
 
     def __repr__(self):
-        return '<People %r>' % self.name
+        return '<Planet %r>' % self.name
 
     def serialize(self):
         return {
