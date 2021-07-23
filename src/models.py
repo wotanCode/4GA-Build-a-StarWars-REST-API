@@ -24,7 +24,7 @@ class People(db.Model):
     name = db.Column(db.String(120), unique=True, nullable=False)
     #planet = db.Column(db.String(80), unique=False, nullable=False) recordar comentar porque se comento esta linea
     id_planet = db.Column(db.Integer, db.ForeignKey('planet.id'))
-    planet = db.relationship ('Planet', lazy=True, uselist=True)
+    planet = db.relationship ('Planet', lazy=True, uselist=False)
     
     def __repr__(self):
         return '<People %r>' % self.name
@@ -33,7 +33,8 @@ class People(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "planets": self.planets
+            "id_planet": self.id_planet,
+            "planet": self.planet,
             # do not serialize the password, its a security breach
         }
 class Planet(db.Model):
@@ -41,7 +42,7 @@ class Planet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
     density = db.Column(db.String(80), unique=False, nullable=False)
-    id_people = db.Column(db.Integer, db.ForeignKey('people.id'))
+    #id_people = db.Column(db.Integer, db.ForeignKey('people.id'))
 
     def __repr__(self):
         return '<Planet %r>' % self.name
@@ -51,6 +52,6 @@ class Planet(db.Model):
             "id": self.id,
             "name": self.name,
             "density": self.density,
-            "id_people": self.id_people
+            #"id_people": self.id_people
             # do not serialize the password, its a security breach
         }
