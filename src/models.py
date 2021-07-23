@@ -34,7 +34,7 @@ class People(db.Model):
             "id": self.id,
             "name": self.name,
             "id_planet": self.id_planet,
-            "planet": self.planet,
+            #"planet": self.planet, esto serializa porque no se puede serializar una relacion
             # do not serialize the password, its a security breach
         }
 class Planet(db.Model):
