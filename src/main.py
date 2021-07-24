@@ -38,7 +38,7 @@ def get_usert():
     print(query_user)
     response_body = {
         "msg": "Hello, this is your GET /user response ",
-        "planet": query_user
+        "people": query_user
     }
     return jsonify(response_body), 200
 #codigo original de USER

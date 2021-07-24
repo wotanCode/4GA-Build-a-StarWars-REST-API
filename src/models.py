@@ -8,15 +8,18 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    favoritesVehicle = db.relationship ('FavoritesVehicle', lazy=True, uselist=False)
+    favoriteVehicle = db.relationship ('FavoriteVehicle', backref="user", lazy=True) #relacion uno a muchos
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<User %r>' % self.email
 
+    def get_favVehicles(self):
+        return list(map(lambda vehicle: vehicle.serialize(),self.favoriteVehicle))
     def serialize(self):
         return {
             "id": self.id,
             "email": self.email,
+            "favorites_vehicles": self.get_favVehicles()
             # do not serialize the password, its a security breach
         }
 class People(db.Model):
@@ -29,7 +32,7 @@ class People(db.Model):
     #GUARDANDO RELACIONES
     id_planet = db.Column(db.Integer, db.ForeignKey('planet.id'))
     #RELACIONES
-    planet = db.relationship ('Planet', lazy=True, uselist=False)
+    planet = db.relationship ('Planet', lazy=True, uselist=False) #relacion 1 a 1
     
     def __repr__(self):
         return '<People %r>' % self.name
@@ -72,7 +75,8 @@ class Vehicle(db.Model):
     model = db.Column(db.String(80), unique=False, nullable=False)
     passengers = db.Column(db.String(80), unique=False, nullable=False)
     vehicle_class = db.Column(db.String(80), unique=False, nullable=False)
-    favoritesVehicle = db.relationship ('FavoritesVehicle', lazy=True, uselist=False)
+    #Se usa backref porque es una relacion muchos a muchos
+    favoriteUser = db.relationship ('FavoriteVehicle', backref="vehicle", lazy=True) #relacion uno a muchos
     #id_people = db.Column(db.Integer, db.ForeignKey('people.id'))
 
     def __repr__(self):
@@ -89,25 +93,21 @@ class Vehicle(db.Model):
             # do not serialize the password, its a security breach
         }
 
-class FavoritesVehicle(db.Model):
-    __tablename__ = 'favoritesVehicle'
+class FavoriteVehicle(db.Model):
+    __tablename__ = 'favoriteVehicle'
     id = db.Column(db.Integer, primary_key=True)
     #GUARDANDO RELACIONES
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'))
-    #RELACIONES
-    #user = db.relationship ('User', lazy=True, uselist=False)
-    #vehicle = db.relationship ('Vehicle', lazy=True, uselist=False)
-    #planet = db.relationship ('Planet', lazy=True, uselist=False)
-    
+
     def __repr__(self):
-        return '<FavoritesVehicle %r>' % self.name
+        return '<FavoriteVehicle %r>' % self.id
 
     def serialize(self):
         return {
             "id": self.id,
             "user_id": self.user_id,
+            #"user_email": self.user.email,
             "vehicle_id": self.vehicle_id,
-            #"planet": self.planet, esto serializa porque no se puede serializar una relacion
-            # do not serialize the password, its a security breach
+            "model": self.vehicle.model
         }
