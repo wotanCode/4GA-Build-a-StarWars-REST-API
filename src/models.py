@@ -8,6 +8,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    favoritesVehicle = db.relationship ('FavoritesVehicle', lazy=True, uselist=False)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -94,8 +95,8 @@ class FavoritesVehicle(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'))
     #RELACIONES
-    user = db.relationship ('User', lazy=True, uselist=False)
-    vehicle = db.relationship ('Vehicle', lazy=True, uselist=False)
+    #user = db.relationship ('User', lazy=True, uselist=False)
+    #vehicle = db.relationship ('Vehicle', lazy=True, uselist=False)
     #planet = db.relationship ('Planet', lazy=True, uselist=False)
     
     def __repr__(self):
