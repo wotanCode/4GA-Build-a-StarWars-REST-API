@@ -32,7 +32,7 @@ class People(db.Model):
     #GUARDANDO RELACIONES
     id_planet = db.Column(db.Integer, db.ForeignKey('planet.id'))
     #RELACIONES
-    planet = db.relationship ('Planet', lazy=True, uselist=False) #relacion 1 a 1
+    planet = db.relationship ('Planet', lazy=True, backref="people", uselist=False) #relacion 1 a 1 el backref no es obligatorio aqui
     
     def __repr__(self):
         return '<People %r>' % self.name
