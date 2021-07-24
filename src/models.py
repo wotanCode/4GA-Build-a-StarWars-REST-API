@@ -72,6 +72,7 @@ class Vehicle(db.Model):
     model = db.Column(db.String(80), unique=False, nullable=False)
     passengers = db.Column(db.String(80), unique=False, nullable=False)
     vehicle_class = db.Column(db.String(80), unique=False, nullable=False)
+    favoritesVehicle = db.relationship ('FavoritesVehicle', lazy=True, uselist=False)
     #id_people = db.Column(db.Integer, db.ForeignKey('people.id'))
 
     def __repr__(self):
