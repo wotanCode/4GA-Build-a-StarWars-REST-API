@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, People, Planet
+from models import db, User, People, Planet, Vehicle#, Favorites
 #from models import Person
 
 app = Flask(__name__)
@@ -32,13 +32,23 @@ def sitemap():
 #NOTA
 #puedo copiar todo esto pero literalmente puedo crear una nueva ruta
 @app.route('/user', methods=['GET'])
-def handle_hello():
-
+def get_usert():
+    query_user = User.query.all()
+    query_user = list(map(lambda x: x.serialize(), query_user))
+    print(query_user)
     response_body = {
-        "msg": "Hello, this is your GET /user response "
+        "msg": "Hello, this is your GET /user response ",
+        "planet": query_user
     }
-
     return jsonify(response_body), 200
+#codigo original de USER
+#def handle_hello():
+#
+    #response_body = {
+        #"msg": "Hello, this is your GET /user response "
+    #}
+#
+    #return jsonify(response_body), 200
 
 @app.route('/people', methods=['GET', 'POST'])
 def methods_people():
@@ -67,6 +77,17 @@ def get_planet():
     response_body = {
         "msg": "Hello, this is your GET /planet response ",
         "planet": query_planet
+    }
+    return jsonify(response_body), 200
+
+@app.route('/vehicle', methods=['GET'])
+def get_vehicle():
+    query_vehicle = Vehicle.query.all()
+    query_vehicle = list(map(lambda x: x.serialize(), query_vehicle))
+    print(query_vehicle)
+    response_body = {
+        "msg": "Hello, this is your GET /vehicle response ",
+        "vehicle": query_vehicle
     }
     return jsonify(response_body), 200
 
